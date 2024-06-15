@@ -1,45 +1,38 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdbool.h>
 
-// Recursive function to check if a number is prime
-int isPrime(int num, int divisor)
-{
-    // Base case 1: if num is less than 2, it is not a prime number
-    if (num < 2)
-    {
-        return 0;
-    }
+// Function to check if a number is prime using recursion
+bool isPrime(int n, int divisor) {
+    // Base cases
+    if (n <= 2) 
+        return (n == 2);
+    if (n % divisor == 0) 
+        return false;
+    if (divisor * divisor > n) 
+        return true;
 
-    // Base case 2: if divisor is greater than sqrt(num), then num is prime
-    if (divisor > sqrt(num))
-    {
-        return 1;
-    }
-
-    // If num is divisible by divisor, it is not a prime number
-    if (num % divisor == 0)
-    {
-        return 0;
-    }
-
-    // Recursive case: check the next divisor
-    return isPrime(num, divisor + 1);
+    // Check next divisor
+    return isPrime(n, divisor + 1);
 }
 
-int main()
-{
-    int num;
-    printf("Enter the number: ");
-    scanf("%d", &num);
+// Recursive function to print prime numbers in a given range
+void printPrimes(int current, int limit) {
+    if (current > limit) 
+        return;
+    if (isPrime(current, 2)) 
+        printf("%d ", current);
+    printPrimes(current + 1, limit);
+}
 
-    if (isPrime(num, 2))
-    {
-        printf("%d is a prime number.\n", num);
-    }
-    else
-    {
-        printf("%d is not a prime number.\n", num);
-    }
+// Driver code
+int main() {
+    int limit;
+
+    printf("Enter the limit up to which to generate prime numbers: ");
+    scanf("%d", &limit);
+
+    printf("Prime numbers up to %d are: ", limit);
+    printPrimes(2, limit);
 
     return 0;
 }
